@@ -1,0 +1,15 @@
+# Python dependencies for embeddings service
+# Windows-compatible versions with explicit PyTorch CPU build
+
+Flask==3.0.2
+python-dotenv==1.0.1
+pinecone-client==5.0.1
+numpy<2
+
+# Install PyTorch CPU version (fixes Windows DLL errors)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.2.0+cpu
+transformers==4.39.3
+
+# Install sentence-transformers after PyTorch
+sentence-transformers==2.5.1

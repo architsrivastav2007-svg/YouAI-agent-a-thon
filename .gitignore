@@ -1,0 +1,25 @@
+# Frontend
+frontend/.next/
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/.DS_Store
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/.env.local
+
+# Embeddings & Python
+embeddings/venv/
+*.pyc
+__pycache__/
+.env
+.DS_Store
+
+# General
+*.log
+*.sqlite
+*.zip
+*.bak
+myvenv
