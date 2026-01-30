@@ -35,6 +35,9 @@ import {
 } from "lucide-react";
 import DreamButton from "@/components/DreamButton";
 import { useOrbCompanion } from "@/lib/TriggerAiSpeech";
+import SOSButton from "@/components/SOSButton";
+import NotificationPanel from "@/components/NotificationPanel";
+
 const features = [
   {
     icon: Brain,
@@ -395,8 +398,10 @@ const page = () => {
                   {dayInfo.day}, {dayInfo.year}
                 </p>
               </div>
-              <div className="w-11 h-11 bg-gray-400/30 rounded-lg flex items-center justify-center shrink-0">
-                <LuBell size={24} className="text-white" />
+              
+              {/* Notification Panel with Polling */}
+              <div className="bg-gray-400/30 rounded-lg flex items-center justify-center shrink-0">
+                <NotificationPanel userEmail={currentUser?.email} />
               </div>
             </div>
           )}
@@ -458,6 +463,17 @@ const page = () => {
                   <SuggestionsBar suggestions={suggestions} />
                 </div>
               )}
+
+              {/* SOS BUTTON SECTION */}
+              {!isListening && currentUser && (
+                <div className="my-8 flex justify-center">
+                  <SOSButton 
+                    userEmail={currentUser.email} 
+                    className="w-full max-w-md"
+                  />
+                </div>
+              )}
+
               {isListening && (
                 <div className="my-3 max-[500px]:my-7 flex flex-col items-center justify-center text-white transition-all duration-300">
                   <div className="relative mb-4">

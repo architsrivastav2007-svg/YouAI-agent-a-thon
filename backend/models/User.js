@@ -88,8 +88,36 @@ const userSchema = new mongoose.Schema({
     stripeSubscriptionId: String,
   },
 
+  // SOS System - Multiple Emergency Contacts
+  // Array of email addresses that can receive SOS alerts and request location
+  // Validation: Valid email format, no duplicates
+  emergencyContacts: {
+    type: [String],
+    default: [],
+    validate: {
+      validator: function(contacts) {
+        // Check for valid email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return contacts.every(email => emailRegex.test(email));
+      },
+      message: 'All emergency contacts must be valid email addresses'
+    }
+  },
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+});
+
+// Pre-save hook to remove duplicate emails from emergencyContacts
+userSchema.pre('save', function(next) {
+  if (this.emergencyContacts && this.emergencyContacts.length > 0) {
+    // Remove duplicates (case-insensitive)
+    const uniqueContacts = [...new Set(
+      this.emergencyContacts.map(email => email.toLowerCase())
+    )];
+    this.emergencyContacts = uniqueContacts;
+  }
+  next();
 });
 
 module.exports = mongoose.model("User", userSchema);

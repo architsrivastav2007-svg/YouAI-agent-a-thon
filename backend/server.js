@@ -71,7 +71,50 @@ app.use('/api/goal', goalRoutes);
 const subscriptionRoutes = require('./routes/SubscriptionRoutes');
 app.use('/api/subscription', subscriptionRoutes);
 
+// ========================================
+// SOS SYSTEM ROUTES (Phases 3, 4, 5)
+// ========================================
+const sosRoutes = require('./routes/sosRoutes');
+app.use('/api', sosRoutes);
+
+console.log('[SOS-SYSTEM] SOS routes initialized');
+
+// ========================================
+// NOTIFICATION ROUTES (Polling-based)
+// ========================================
+const notificationRoutes = require('./routes/notificationRoutes');
+app.use('/api', notificationRoutes);
+
+console.log('[NOTIFICATIONS] Notification routes initialized');
+
+// ========================================
+// EMERGENCY CONTACTS MANAGEMENT ROUTES
+// ========================================
+const emergencyContactsRoutes = require('./routes/emergencyContactsRoutes');
+app.use('/api/emergency-contacts', emergencyContactsRoutes);
+
+console.log('[EMERGENCY-CONTACTS] Emergency contacts routes initialized');
+
+// ========================================
+// PHASE 6 - AUTO SOS BACKGROUND JOB
+// ========================================
+const { startAutoSOSJob } = require('./jobs/autoSOSJob');
+const { verifyEmailConfig } = require('./services/emailService');
+
+// Verify email configuration on startup
+verifyEmailConfig().then(isValid => {
+  if (isValid) {
+    console.log('[SOS-SYSTEM] ✅ Email service ready');
+  } else {
+    console.warn('[SOS-SYSTEM] ⚠️ Email service configuration issue - check .env file');
+  }
+});
+
+// Start background job for auto SOS
+startAutoSOSJob();
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  console.log('[SOS-SYSTEM] 🚀 SOS system active and monitoring');
 });
