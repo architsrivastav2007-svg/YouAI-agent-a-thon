@@ -11,9 +11,8 @@ async function addEmergencyContacts() {
 
     const userEmail = 'architsrivastav2007@gmail.com';
     const contacts = [
-      'emergency1@example.com',
-      'emergency2@example.com',
-      'emergency3@example.com'
+      'ashwinnn.038@gmail.com',
+      'ashmit8811ashu@gmail.com',
     ];
 
     const user = await User.findOne({ email: userEmail });
